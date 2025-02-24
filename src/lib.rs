@@ -1,5 +1,6 @@
 //! Simulation Trait Definitions for WASM
 
+pub mod ant;
 pub mod conway;
 
 /// A trait defining what a simulation must represent to be renderable
