@@ -26,11 +26,6 @@ impl Conway {
         }
     }
 
-    /// Steps the simulation
-    pub fn step_fwd(&mut self) {
-        self.step()
-    }
-
     pub fn get_width(&self) -> usize {
         self.width
     }
@@ -38,9 +33,7 @@ impl Conway {
     pub fn get_height(&self) -> usize {
         self.height
     }
-}
 
-impl Simulation for Conway {
     fn step(&mut self) {
         let mut next_area = self.area.clone();
 
@@ -85,5 +78,19 @@ impl Simulation for Conway {
 
     fn steps(&self) -> usize {
         self.steps
+    }
+}
+
+impl Simulation for Conway {
+    fn step(&mut self) {
+        Conway::step(self);
+    }
+
+    fn render(&self) -> Vec<bool> {
+        Conway::render(self)
+    }
+
+    fn steps(&self) -> usize {
+        Conway::steps(self)
     }
 }
