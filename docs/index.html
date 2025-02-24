@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway's Game of Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import init, { Conway } from "./wasm/simzoo.js";
+        
+        async function run() {
+            await init();             
+
+            const width = 20;
+            const height = 20;
+            const conway = Conway.with_dims(width, height);
+            let play = false;
+            
+            const grid = document.getElementById("grid");
+            grid.style.display = "grid";
+            grid.style.gridTemplateColumns = `repeat(${width}, 24px)`;
+            
+            let cells = [];
+            for (let i = 0; i < width * height; i++) {
+                let cell = document.createElement("div");
+                cell.classList.add("cell", "w-6", "h-6", "border", "border-gray-300", "bg-white", "transition-colors", "duration-200");
+
+                cell.addEventListener("click", () => {
+                    conway.set(i);
+                    render();
+                });
+                
+                grid.appendChild(cell);
+                cells.push(cell);
+            }
+            
+            function render() {
+                const data = conway.render();
+                for (let i = 0; i < data.length; i++) {
+                    cells[i].classList.toggle("bg-black", data[i] == 1);
+                }
+            }
+            
+            document.getElementById("step").addEventListener("click", () => {
+                conway.step();
+                render();
+            });
+
+            document.getElementById("play").addEventListener("click", () => {
+                play = !play;
+                document.getElementById("play").innerText = play ? "❚❚" : "▶";
+            });
+
+            setInterval(function () {
+                if (play) {
+                    conway.step();
+                    render();
+                }
+            }, 500);
+            
+            render();
+        }
+        
+        run();
+    </script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-6">
+
+    <h1 class="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+        Conway's Game of Life :D
+    </h1>
+
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div id="grid" class="grid gap-1 mx-auto"></div>
+
+        <div class="mt-6 flex justify-center gap-4">
+            <button id="play" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition">
+                ▶
+            </button>
+            <button id="step" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition">
+                Single Step
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
+

@@ -18,6 +18,20 @@ function getStringFromWasm0(ptr, len) {
     return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
 }
 
+let cachedUint32ArrayMemory0 = null;
+
+function getUint32ArrayMemory0() {
+    if (cachedUint32ArrayMemory0 === null || cachedUint32ArrayMemory0.byteLength === 0) {
+        cachedUint32ArrayMemory0 = new Uint32Array(wasm.memory.buffer);
+    }
+    return cachedUint32ArrayMemory0;
+}
+
+function getArrayU32FromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return getUint32ArrayMemory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
 const ConwayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_conway_free(ptr >>> 0, 1));
@@ -67,6 +81,38 @@ export class Conway {
      */
     get_height() {
         const ret = wasm.conway_get_height(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @param {number} width
+     * @param {number} height
+     */
+    resize(width, height) {
+        wasm.conway_resize(this.__wbg_ptr, width, height);
+    }
+    step() {
+        wasm.conway_step(this.__wbg_ptr);
+    }
+    /**
+     * @param {number} idx
+     */
+    set(idx) {
+        wasm.conway_set(this.__wbg_ptr, idx);
+    }
+    /**
+     * @returns {Uint32Array}
+     */
+    render() {
+        const ret = wasm.conway_render(this.__wbg_ptr);
+        var v1 = getArrayU32FromWasm0(ret[0], ret[1]).slice();
+        wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
+        return v1;
+    }
+    /**
+     * @returns {number}
+     */
+    steps() {
+        const ret = wasm.conway_steps(this.__wbg_ptr);
         return ret >>> 0;
     }
 }
@@ -129,6 +175,7 @@ function __wbg_init_memory(imports, memory) {
 function __wbg_finalize_init(instance, module) {
     wasm = instance.exports;
     __wbg_init.__wbindgen_wasm_module = module;
+    cachedUint32ArrayMemory0 = null;
     cachedUint8ArrayMemory0 = null;
 
 

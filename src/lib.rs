@@ -7,7 +7,7 @@ pub trait Simulation {
     /// Step the world forward
     fn step(&mut self);
     /// Render the world
-    fn render(&self) -> Vec<bool>;
+    fn render(&self) -> Vec<usize>;
     /// Returns how many steps have gone by
     fn steps(&self) -> usize;
 }

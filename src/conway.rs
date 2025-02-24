@@ -34,7 +34,13 @@ impl Conway {
         self.height
     }
 
-    fn step(&mut self) {
+    pub fn resize(&mut self, width: usize, height: usize) {
+        self.width = width;
+        self.height = height;
+        self.area = vec![false; width * height];
+    }
+
+    pub fn step(&mut self) {
         let mut next_area = self.area.clone();
 
         for idx in 0..self.area.len() {
@@ -72,11 +78,18 @@ impl Conway {
         self.steps += 1;
     }
 
-    fn render(&self) -> Vec<bool> {
-        self.area.clone()
+    pub fn set(&mut self, idx: usize) {
+        self.area[idx] = !self.area[idx]
     }
 
-    fn steps(&self) -> usize {
+    pub fn render(&self) -> Vec<usize> {
+        self.area
+            .iter()
+            .map(|val| if *val { 1 } else { 0 })
+            .collect()
+    }
+
+    pub fn steps(&self) -> usize {
         self.steps
     }
 }
@@ -86,7 +99,7 @@ impl Simulation for Conway {
         Conway::step(self);
     }
 
-    fn render(&self) -> Vec<bool> {
+    fn render(&self) -> Vec<usize> {
         Conway::render(self)
     }
 

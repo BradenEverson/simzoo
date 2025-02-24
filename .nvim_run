@@ -1,0 +1,1 @@
+wasm-pack build --out-dir docs/wasm --target web

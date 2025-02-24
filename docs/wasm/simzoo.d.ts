@@ -12,6 +12,11 @@ export class Conway {
   static with_dims(width: number, height: number): Conway;
   get_width(): number;
   get_height(): number;
+  resize(width: number, height: number): void;
+  step(): void;
+  set(idx: number): void;
+  render(): Uint32Array;
+  steps(): number;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -22,7 +27,13 @@ export interface InitOutput {
   readonly conway_with_dims: (a: number, b: number) => number;
   readonly conway_get_width: (a: number) => number;
   readonly conway_get_height: (a: number) => number;
+  readonly conway_resize: (a: number, b: number, c: number) => void;
+  readonly conway_step: (a: number) => void;
+  readonly conway_set: (a: number, b: number) => void;
+  readonly conway_render: (a: number) => [number, number];
+  readonly conway_steps: (a: number) => number;
   readonly __wbindgen_export_0: WebAssembly.Table;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_start: () => void;
 }
 
