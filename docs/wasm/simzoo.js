@@ -69,6 +69,9 @@ export class Conway {
         const ret = wasm.conway_with_dims(width, height);
         return Conway.__wrap(ret);
     }
+    clear() {
+        wasm.conway_clear(this.__wbg_ptr);
+    }
     /**
      * @returns {number}
      */

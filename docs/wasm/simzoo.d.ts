@@ -10,6 +10,7 @@ export class Conway {
    * Creates a new simulation with set dimensions
    */
   static with_dims(width: number, height: number): Conway;
+  clear(): void;
   get_width(): number;
   get_height(): number;
   resize(width: number, height: number): void;
@@ -25,6 +26,7 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_conway_free: (a: number, b: number) => void;
   readonly conway_with_dims: (a: number, b: number) => number;
+  readonly conway_clear: (a: number) => void;
   readonly conway_get_width: (a: number) => number;
   readonly conway_get_height: (a: number) => number;
   readonly conway_resize: (a: number, b: number, c: number) => void;

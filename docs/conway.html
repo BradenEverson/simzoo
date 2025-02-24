@@ -40,6 +40,11 @@
                     cells[i].classList.toggle("bg-black", data[i] == 1);
                 }
             }
+
+            document.getElementById("clear").addEventListener("click", () => {
+                conway.clear();
+                render();
+            });
             
             document.getElementById("step").addEventListener("click", () => {
                 conway.step();
@@ -74,9 +79,13 @@
         <div id="grid" class="grid gap-1 mx-auto"></div>
 
         <div class="mt-6 flex justify-center gap-4">
+            <button id="clear" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transition">
+                Clear
+            </button>
             <button id="play" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition">
                 ▶
             </button>
+
             <button id="step" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition">
                 Single Step
             </button>
