@@ -27,7 +27,8 @@ impl Conway {
     }
 
     pub fn clear(&mut self) {
-        self.area = vec![false; self.width * self.height]
+        self.area = vec![false; self.width * self.height];
+        self.steps = 0
     }
 
     pub fn get_width(&self) -> usize {

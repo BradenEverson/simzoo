@@ -1,10 +1,13 @@
 //! Implementation of Langton's Ant
 
+use crate::Simulation;
+
 pub struct LangtonAnt {
     width: usize,
     height: usize,
     ant: (usize, usize),
     grid: Vec<AntState>,
+    steps: usize,
 }
 
 #[repr(u8)]
@@ -27,6 +30,7 @@ impl LangtonAnt {
             height,
             ant,
             grid,
+            steps: 0,
         }
     }
 
@@ -45,5 +49,31 @@ impl LangtonAnt {
 
         self.grid = vec![AntState::White; width * height];
         self.grid[self.ant.0 + self.ant.1 * width] = AntState::Ant;
+    }
+
+    pub fn step(&mut self) {
+        todo!()
+    }
+
+    pub fn steps(&self) -> usize {
+        todo!()
+    }
+
+    pub fn render(&self) -> Vec<usize> {
+        todo!()
+    }
+}
+
+impl Simulation for LangtonAnt {
+    fn step(&mut self) {
+        LangtonAnt::step(self)
+    }
+
+    fn steps(&self) -> usize {
+        LangtonAnt::steps(self)
+    }
+
+    fn render(&self) -> Vec<usize> {
+        LangtonAnt::render(self)
     }
 }
